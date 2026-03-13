@@ -48,11 +48,34 @@ app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', message: 'Plexus Cloud Backend is running' });
 });
 
+// Simulated Background Alerts
+import { notificationRepository } from './features/notifications/data/fcm-notification.repository';
+const startAlertSimulation = () => {
+  console.log('[simulator]: Starting alert simulation...');
+  setInterval(async () => {
+    const tokens = await notificationRepository.getAllRegisteredTokens();
+    if (tokens.length > 0) {
+      console.log('[simulator]: Simulating critical alert push...');
+      const randomAlerts = [
+        { title: 'CRITICAL: Core Switch Down', body: 'Core-Switch-01 is unreachable. Network heartbeat failed.' },
+        { title: 'ALERT: High Traffic Load', body: 'Edge-Router-05: Traffic exceeds 90% capacity.' },
+        { title: 'CRITICAL: Security Breach', body: 'Unauthorized access attempt detected in Server Room Alpha.' }
+      ];
+      const alert = randomAlerts[Math.floor(Math.random() * randomAlerts.length)];
+      
+      tokens.forEach(token => {
+        notificationRepository.sendPushNotification(token, alert.title, alert.body);
+      });
+    }
+  }, 60000); // Simulate every minute
+};
+
 // App Entry Point
 const startServer = () => {
   try {
     app.listen(port, () => {
       console.log(`[server]: Server is running at http://localhost:${port}`);
+      startAlertSimulation();
     });
   } catch (error) {
     console.error(`Error occurred: ${error}`);

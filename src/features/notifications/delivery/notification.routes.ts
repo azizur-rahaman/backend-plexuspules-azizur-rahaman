@@ -8,6 +8,7 @@ const router = Router();
 router.use(authMiddleware);
 
 router.post('/register-token', NotificationController.registerToken);
+router.post('/send-test', NotificationController.sendTestNotification);
 router.get('/settings', NotificationController.getSettings);
 router.post('/settings', NotificationController.updateSettings);
 

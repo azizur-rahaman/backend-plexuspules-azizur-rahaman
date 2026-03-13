@@ -40,4 +40,29 @@ export class NotificationController {
       return res.status(error.statusCode || 500).json({ status: 'error', message: error.message });
     }
   }
+
+  static async sendTestNotification(req: Request, res: Response) {
+    try {
+      const { title, body } = req.body;
+      const tokens = await notificationRepository.getAllRegisteredTokens();
+      
+      if (tokens.length === 0) {
+        throw new AppError('No registered tokens found', 404);
+      }
+
+      await Promise.all(
+        tokens.map(token => 
+          notificationRepository.sendPushNotification(
+            token, 
+            title || 'Test Notification', 
+            body || 'This is a test notification from Plexus Pulse backend'
+          )
+        )
+      );
+
+      return sendResponse(res, 200, null, `Test notification sent to ${tokens.length} tokens`);
+    } catch (error: any) {
+      return res.status(error.statusCode || 500).json({ status: 'error', message: error.message });
+    }
+  }
 }
