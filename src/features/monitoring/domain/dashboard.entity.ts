@@ -3,4 +3,7 @@ export interface DashboardMetrics {
   onlineDevices: number;
   offlineDevices: number;
   alerts: number;
+  cpuUsage: number;
+  memoryUsage: number;
+  networkTraffic: number;
 }

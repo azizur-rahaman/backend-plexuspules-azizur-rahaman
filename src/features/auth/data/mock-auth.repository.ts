@@ -6,7 +6,7 @@ export class MockAuthRepository implements IAuthRepository {
     {
       id: '1',
       email: 'admin@plexus.com',
-      password: 'password',
+      password: 'password123',
       name: 'Admin User',
       role: 'admin',
       createdAt: new Date(),

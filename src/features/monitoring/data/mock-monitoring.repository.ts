@@ -126,7 +126,10 @@ export class MockMonitoringRepository implements IMonitoringRepository {
       totalDevices: this.devices.length,
       onlineDevices: online,
       offlineDevices: offline,
-      alerts: alerts
+      alerts: alerts,
+      cpuUsage: 34.5,
+      memoryUsage: 62.1,
+      networkTraffic: 128.4
     };
   }
 }
