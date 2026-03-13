@@ -1,8 +1,9 @@
 import * as admin from 'firebase-admin';
 import { INotificationRepository } from '../domain/notification.repository';
 
-// In-memory storage for tokens for now, as we don't have a database
+// In-memory storage for tokens and settings for now
 const userTokens: Map<string, Set<string>> = new Map();
+const userSettings: Map<string, any> = new Map();
 
 export class FcmNotificationRepository implements INotificationRepository {
   async sendPushNotification(
@@ -38,13 +39,29 @@ export class FcmNotificationRepository implements INotificationRepository {
     return tokens ? Array.from(tokens) : [];
   }
 
-  // Helper for mock trigger to send to all registered tokens
   async getAllRegisteredTokens(): Promise<string[]> {
     const allTokens: string[] = [];
     userTokens.forEach(tokens => {
       allTokens.push(...Array.from(tokens));
     });
     return allTokens;
+  }
+
+  async getSettings(userId: string): Promise<any> {
+    if (!userSettings.has(userId)) {
+      // Default settings
+      return {
+        pushEnabled: true,
+        emailEnabled: true,
+        alertThreshold: 80,
+      };
+    }
+    return userSettings.get(userId);
+  }
+
+  async updateSettings(userId: string, settings: any): Promise<void> {
+    userSettings.set(userId, { ...await this.getSettings(userId), ...settings });
+    console.log(`Notification settings updated for user ${userId}`);
   }
 }
 

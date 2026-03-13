@@ -4,7 +4,11 @@ import { authMiddleware } from '../../../core/middlewares/auth.middleware';
 
 const router = Router();
 
-// Protect token registration with auth
-router.post('/register-token', authMiddleware, NotificationController.registerToken);
+// Routes protected with auth
+router.use(authMiddleware);
+
+router.post('/register-token', NotificationController.registerToken);
+router.get('/settings', NotificationController.getSettings);
+router.post('/settings', NotificationController.updateSettings);
 
 export default router;

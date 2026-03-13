@@ -19,4 +19,25 @@ export class NotificationController {
       return res.status(error.statusCode || 500).json({ status: 'error', message: error.message });
     }
   }
+
+  static async getSettings(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.id || 'anonymous';
+      const settings = await notificationRepository.getSettings(userId);
+      return sendResponse(res, 200, settings, 'Settings retrieved successfully');
+    } catch (error: any) {
+      return res.status(error.statusCode || 500).json({ status: 'error', message: error.message });
+    }
+  }
+
+  static async updateSettings(req: Request, res: Response) {
+    try {
+      const userId = (req as any).user?.id || 'anonymous';
+      const settings = req.body;
+      await notificationRepository.updateSettings(userId, settings);
+      return sendResponse(res, 200, settings, 'Settings updated successfully');
+    } catch (error: any) {
+      return res.status(error.statusCode || 500).json({ status: 'error', message: error.message });
+    }
+  }
 }
