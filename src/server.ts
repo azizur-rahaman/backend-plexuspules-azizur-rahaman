@@ -25,6 +25,7 @@ import authRoutes from './features/auth/delivery/auth.routes';
 import dashboardRoutes from './features/dashboard/delivery/dashboard.routes';
 import devicesRoutes from './features/devices/delivery/devices.routes';
 import performanceRoutes from './features/performance/delivery/performance.routes';
+import alertsRoutes from './features/alerts/delivery/alerts.routes';
 import notificationRoutes from './features/notifications/delivery/notification.routes';
 import { initializeFirebase } from './core/config/firebase.config';
 
@@ -35,6 +36,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/devices', devicesRoutes);
 app.use('/api/performance', performanceRoutes);
+app.use('/api/alerts', alertsRoutes);
 app.use('/api/notifications', notificationRoutes);
 
 // Global Error Handler (must be registered after all routes)
