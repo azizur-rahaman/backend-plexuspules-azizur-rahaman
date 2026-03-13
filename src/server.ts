@@ -23,9 +23,15 @@ app.use(morgan('dev'));
 // Routes
 import authRoutes from './features/auth/delivery/auth.routes';
 import monitoringRoutes from './features/monitoring/delivery/monitoring.routes';
+import notificationRoutes from './features/notifications/delivery/notification.routes';
+import { initializeFirebase } from './core/config/firebase.config';
+
+// Initialize Firebase Admin
+initializeFirebase();
 
 app.use('/api/auth', authRoutes);
 app.use('/api/monitoring', monitoringRoutes);
+app.use('/api/notifications', notificationRoutes);
 
 // Global Error Handler (must be registered after all routes)
 import { globalErrorHandler } from './core/middlewares/error.middleware';

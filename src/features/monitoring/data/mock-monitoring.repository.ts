@@ -1,6 +1,7 @@
 import { IMonitoringRepository } from '../domain/monitoring.repository';
 import { Device, DeviceDetails } from '../domain/device.entity';
 import { DashboardMetrics } from '../domain/dashboard.entity';
+import { notificationRepository } from '../../notifications/data/fcm-notification.repository';
 
 export class MockMonitoringRepository implements IMonitoringRepository {
   private devices: DeviceDetails[] = [
@@ -54,16 +55,46 @@ export class MockMonitoringRepository implements IMonitoringRepository {
     }
   ];
 
-  async getDevices(): Promise<Device[]> {
-    // Return basic device info for the list
-    return this.devices.map(({ cpuHistory, memoryHistory, ...rest }) => rest);
+  private async notifyUserOffline(deviceName: string) {
+    const tokens = await notificationRepository.getAllRegisteredTokens();
+    if (tokens.length === 0) {
+      console.log(`[Alert] No tokens registered. Skipping notification for ${deviceName}`);
+      return;
+    }
+    
+    console.log(`[Alert] Triggering offline notification for ${deviceName} to ${tokens.length} devices`);
+    
+    for (const token of tokens) {
+      await notificationRepository.sendPushNotification(
+        token,
+        'Device Offline',
+        `${deviceName} has gone offline!`,
+        { type: 'OFFLINE_ALERT', deviceName }
+      );
+    }
+  }
+
+  async getDevices(search?: string, status?: string): Promise<Device[]> {
+    let filtered = this.devices;
+
+    if (search) {
+      const s = search.toLowerCase();
+      filtered = filtered.filter(d => 
+        d.name.toLowerCase().includes(s) || d.ipAddress.includes(s)
+      );
+    }
+
+    if (status) {
+      filtered = filtered.filter(d => d.status === status.toLowerCase());
+    }
+
+    return filtered.map(({ cpuHistory, memoryHistory, ...rest }) => rest);
   }
 
   async getDeviceById(id: string): Promise<DeviceDetails | null> {
     const device = this.devices.find(d => d.id === id);
     if (!device) return null;
 
-    // Simulate minor real-time variation if online
     if (device.status === 'online') {
       device.cpuUsage = Math.max(0, Math.min(100, device.cpuUsage + (Math.random() * 4 - 2)));
       device.memoryUsage = Math.max(0, Math.min(100, device.memoryUsage + (Math.random() * 2 - 1)));
@@ -74,6 +105,19 @@ export class MockMonitoringRepository implements IMonitoringRepository {
   }
 
   async getDashboardMetrics(): Promise<DashboardMetrics> {
+    // Simulate random status change for one device
+    const deviceIndex = Math.floor(Math.random() * this.devices.length);
+    const device = this.devices[deviceIndex];
+    const oldStatus = device.status;
+    const newStatus = Math.random() > 0.1 ? 'online' : 'offline';
+
+    if (oldStatus === 'online' && newStatus === 'offline') {
+      // Don't await to avoid blocking the API response
+      this.notifyUserOffline(device.name).catch(console.error);
+    }
+
+    device.status = newStatus;
+
     const online = this.devices.filter(d => d.status === 'online').length;
     const offline = this.devices.filter(d => d.status === 'offline').length;
     const alerts = this.devices.filter(d => d.cpuUsage > 80 || d.status === 'offline').length;
