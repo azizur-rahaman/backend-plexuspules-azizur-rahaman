@@ -27,6 +27,10 @@ import monitoringRoutes from './features/monitoring/delivery/monitoring.routes';
 app.use('/api/auth', authRoutes);
 app.use('/api/monitoring', monitoringRoutes);
 
+// Global Error Handler (must be registered after all routes)
+import { globalErrorHandler } from './core/middlewares/error.middleware';
+app.use(globalErrorHandler);
+
 // Health Check
 app.get('/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'OK', message: 'Plexus Cloud Backend is running' });
