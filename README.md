@@ -42,13 +42,32 @@ This backend service provides the core API and business logic for the Plexuspule
 
 ## Usage
 
-The API will be available at `http://localhost:3000`.
+The API is available at `http://localhost:3000`.
 
 ### API Endpoints
 
-- `GET /api/health` - Health check
-- `POST /api/auth/login` - User login
-- `GET /api/users` - Get all users (requires authentication)
+#### Authentication
+- `POST /api/auth/login` - User login with dummy credentials.
+  - Body: `{ "email": "admin@plexus.com", "password": "password" }`
+  - Returns: `{ "token": "...", "user": { ... } }`
+
+#### Monitoring & Dashboard
+- `GET /api/monitoring/summary` - Real-time metrics overview.
+  - Returns: `{ "totalDevices": 4, "onlineDevices": 3, "offlineDevices": 1, "alerts": 2 }`
+- `GET /api/monitoring/devices` - List of all network devices.
+- `GET /api/monitoring/devices/:id` - Detailed information for a specific device, including real-time CPU/Memory usage and history.
+
+#### Health Check
+- `GET /health` - Service health status.
+
+## Architecture
+
+This project follows **Clean Architecture** principles:
+- **Core**: Cross-cutting concerns like security, global errors, and utilities.
+- **Features**: Business logic modules (Auth, Monitoring).
+  - **Domain**: Entities, Use Cases, and Repository Interfaces (Pure TS).
+  - **Data**: Repository implementations and data sources (External dependencies).
+  - **Delivery**: Express controllers and route definitions.
 
 ## Development
 
