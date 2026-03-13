@@ -19,7 +19,8 @@ export class MonitoringController {
 
   static async getDevices(req: Request, res: Response) {
     try {
-      const devices = await getDevicesUseCase.execute();
+      const { search, status } = req.query;
+      const devices = await getDevicesUseCase.execute(search as string, status as string);
       return res.status(200).json(devices);
     } catch (error: any) {
       return res.status(500).json({ message: error.message });

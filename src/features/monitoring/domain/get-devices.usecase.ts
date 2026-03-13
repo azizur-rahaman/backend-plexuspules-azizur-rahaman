@@ -4,7 +4,7 @@ import { Device } from './device.entity';
 export class GetDevicesUseCase {
   constructor(private monitoringRepository: IMonitoringRepository) {}
 
-  async execute(): Promise<Device[]> {
-    return this.monitoringRepository.getDevices();
+  async execute(search?: string, status?: string): Promise<Device[]> {
+    return this.monitoringRepository.getDevices(search, status);
   }
 }
