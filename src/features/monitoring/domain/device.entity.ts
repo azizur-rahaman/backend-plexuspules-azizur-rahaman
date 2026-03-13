@@ -12,6 +12,5 @@ export interface Device {
 export interface DeviceDetails extends Device {
   cpuUsage: number;
   memoryUsage: number;
-  cpuHistory: number[];
-  memoryHistory: number[];
+  performanceHistory: number[];
 }

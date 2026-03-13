@@ -14,8 +14,7 @@ export class MockMonitoringRepository implements IMonitoringRepository {
       lastPing: new Date(),
       cpuUsage: 12.5,
       memoryUsage: 45.2,
-      cpuHistory: [10, 15, 12, 14, 18, 12, 13],
-      memoryHistory: [40, 42, 45, 44, 46, 45, 45]
+      performanceHistory: [25, 30, 28, 32, 35, 30, 31]
     },
     {
       id: 'd2',
@@ -26,8 +25,7 @@ export class MockMonitoringRepository implements IMonitoringRepository {
       lastPing: new Date(),
       cpuUsage: 5.2,
       memoryUsage: 22.8,
-      cpuHistory: [4, 5, 6, 5, 4, 5, 6],
-      memoryHistory: [20, 21, 22, 22, 23, 22, 23]
+      performanceHistory: [12, 13, 14, 13, 12, 13, 14]
     },
     {
       id: 'd3',
@@ -38,8 +36,7 @@ export class MockMonitoringRepository implements IMonitoringRepository {
       lastPing: new Date(Date.now() - 3600000),
       cpuUsage: 0,
       memoryUsage: 0,
-      cpuHistory: [0, 0, 0, 0, 0, 0, 0],
-      memoryHistory: [0, 0, 0, 0, 0, 0, 0]
+      performanceHistory: [0, 0, 0, 0, 0, 0, 0]
     },
     {
       id: 'd4',
@@ -50,8 +47,7 @@ export class MockMonitoringRepository implements IMonitoringRepository {
       lastPing: new Date(),
       cpuUsage: 25.8,
       memoryUsage: 68.4,
-      cpuHistory: [20, 22, 28, 30, 25, 24, 26],
-      memoryHistory: [60, 62, 65, 70, 68, 66, 68]
+      performanceHistory: [40, 42, 46, 50, 48, 45, 47]
     }
   ];
 
@@ -88,7 +84,7 @@ export class MockMonitoringRepository implements IMonitoringRepository {
       filtered = filtered.filter(d => d.status === status.toLowerCase());
     }
 
-    return filtered.map(({ cpuHistory, memoryHistory, ...rest }) => rest);
+    return filtered.map(({ performanceHistory, ...rest }) => rest);
   }
 
   async getDeviceById(id: string): Promise<DeviceDetails | null> {
