@@ -6,4 +6,5 @@ export interface DashboardMetrics {
   cpuUsage: number;
   memoryUsage: number;
   networkTraffic: number;
+  performanceHistory: number[];
 }

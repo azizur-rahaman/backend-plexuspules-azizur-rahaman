@@ -125,7 +125,8 @@ export class MockMonitoringRepository implements IMonitoringRepository {
       alerts: alerts,
       cpuUsage: 34.5,
       memoryUsage: 62.1,
-      networkTraffic: 128.4
+      networkTraffic: 128.4,
+      performanceHistory: [30, 32, 35, 34, 36, 38, 40, 42, 45, 43, 41, 44]
     };
   }
 }
