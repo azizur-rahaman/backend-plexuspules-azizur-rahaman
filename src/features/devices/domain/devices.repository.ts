@@ -1,8 +1,6 @@
 import { Device, DeviceDetails } from './device.entity';
-import { DashboardMetrics } from './dashboard.entity';
 
-export interface IMonitoringRepository {
+export interface IDevicesRepository {
   getDevices(search?: string, status?: string): Promise<Device[]>;
   getDeviceById(id: string): Promise<DeviceDetails | null>;
-  getDashboardMetrics(): Promise<DashboardMetrics>;
 }

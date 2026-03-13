@@ -22,7 +22,9 @@ app.use(morgan('dev'));
 
 // Routes
 import authRoutes from './features/auth/delivery/auth.routes';
-import monitoringRoutes from './features/monitoring/delivery/monitoring.routes';
+import dashboardRoutes from './features/dashboard/delivery/dashboard.routes';
+import devicesRoutes from './features/devices/delivery/devices.routes';
+import performanceRoutes from './features/performance/delivery/performance.routes';
 import notificationRoutes from './features/notifications/delivery/notification.routes';
 import { initializeFirebase } from './core/config/firebase.config';
 
@@ -30,7 +32,9 @@ import { initializeFirebase } from './core/config/firebase.config';
 initializeFirebase();
 
 app.use('/api/auth', authRoutes);
-app.use('/api/monitoring', monitoringRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/devices', devicesRoutes);
+app.use('/api/performance', performanceRoutes);
 app.use('/api/notifications', notificationRoutes);
 
 // Global Error Handler (must be registered after all routes)
