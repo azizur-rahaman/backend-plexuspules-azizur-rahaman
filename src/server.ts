@@ -22,7 +22,10 @@ app.use(morgan('dev'));
 
 // Routes
 import authRoutes from './features/auth/delivery/auth.routes';
+import monitoringRoutes from './features/monitoring/delivery/monitoring.routes';
+
 app.use('/api/auth', authRoutes);
+app.use('/api/monitoring', monitoringRoutes);
 
 // Health Check
 app.get('/health', (req: Request, res: Response) => {
