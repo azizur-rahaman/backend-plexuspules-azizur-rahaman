@@ -1,15 +1,16 @@
 import * as admin from 'firebase-admin';
-import path from 'path';
 
 export const initializeFirebase = () => {
-  const serviceAccountPath = path.resolve(
-    __dirname,
-    '../../../..',
-    'plexus-cloud-fcm-firebase-adminsdk-fbsvc-d4d97a4b0d.json'
-  );
+  const serviceAccountJson = process.env.FIREBASE_SERVICE_ACCOUNT;
+  
+  if (!serviceAccountJson) {
+    throw new Error('FIREBASE_SERVICE_ACCOUNT environment variable is not set');
+  }
+
+  const serviceAccount = JSON.parse(serviceAccountJson);
 
   admin.initializeApp({
-    credential: admin.credential.cert(serviceAccountPath),
+    credential: admin.credential.cert(serviceAccount),
   });
 
   console.log('Firebase Admin SDK initialized successfully');
