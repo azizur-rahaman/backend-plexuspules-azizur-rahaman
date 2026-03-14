@@ -14,3 +14,10 @@ export class GetDeviceDetailsUseCase {
     return this.devicesRepository.getDeviceById(id);
   }
 }
+
+export class UpdateDeviceStatusUseCase {
+  constructor(private devicesRepository: IDevicesRepository) {}
+  async execute(id: string, status: 'online' | 'offline'): Promise<DeviceDetails | null> {
+    return this.devicesRepository.updateDeviceStatus(id, status);
+  }
+}

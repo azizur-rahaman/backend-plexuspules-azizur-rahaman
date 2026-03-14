@@ -64,4 +64,19 @@ export class MockDevicesRepository implements IDevicesRepository {
   async getDeviceById(id: string): Promise<DeviceDetails | null> {
     return this.devices.find(d => d.id === id) || null;
   }
+
+  async updateDeviceStatus(id: string, status: 'online' | 'offline'): Promise<DeviceDetails | null> {
+    const device = this.devices.find(d => d.id === id);
+    if (!device) return null;
+
+    device.status = status;
+    device.lastPing = new Date();
+    
+    if (status === 'offline') {
+      device.cpuUsage = 0;
+      device.memoryUsage = 0;
+    }
+
+    return device;
+  }
 }

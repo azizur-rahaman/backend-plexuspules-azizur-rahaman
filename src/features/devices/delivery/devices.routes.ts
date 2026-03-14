@@ -6,5 +6,6 @@ const router = Router();
 router.use(authMiddleware);
 router.get('/', DevicesController.getDevices);
 router.get('/:id', DevicesController.getDeviceDetails);
+router.patch('/:id/status', DevicesController.updateStatus);
 
 export default router;

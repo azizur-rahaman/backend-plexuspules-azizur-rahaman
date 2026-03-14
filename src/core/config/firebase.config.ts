@@ -4,7 +4,7 @@ import path from 'path';
 export const initializeFirebase = () => {
   const serviceAccountPath = path.resolve(
     __dirname,
-    '../../..',
+    '../../../..',
     'plexus-cloud-fcm-firebase-adminsdk-fbsvc-d4d97a4b0d.json'
   );
 
