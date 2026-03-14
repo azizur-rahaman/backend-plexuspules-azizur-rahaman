@@ -47,15 +47,16 @@ src/
 │   ├── alerts/         # Event-driven system notifications
 │   ├── notifications/  # FCM management and broadcast logic
 │   └── performance/    # Metrics for CPU and Memory tracking
+│   ├── performance/    # Metrics for CPU and Memory tracking
 └── server.ts           # Global entry point and background task worker
 ```
 
 ## 🚥 Getting Started
 
 ### Prerequisites
--   Node.js (v18+)
--   npm or yarn
--   Firebase Service Account Key (for Push Notifications)
+-  - Node.js (v18+)
+- npm or yarn
+- **Firebase Service Account Key**: Required for Push Notifications. Place the JSON file in the root directory and ensure it matches the filename referenced in `src/core/config/firebase.config.ts`.
 
 ### Installation
 1.  **Clone the repository**:
@@ -71,9 +72,14 @@ src/
 
 3.  **Setup Environment Variables**:
     Create a `.env` file in the root directory based on `.env.example`:
+    ```bash
+    cp .env.example .env
+    ```
+    Then, edit `.env` and provide your secrets:
     ```env
     PORT=3000
     JWT_SECRET=your_super_secret_key
+    DATABASE_URL=./plexus.db
     ```
 
 4.  **Run in Development Mode**:
