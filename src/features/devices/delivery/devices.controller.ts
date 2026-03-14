@@ -48,6 +48,8 @@ export class DevicesController {
 
       // Trigger notification
       const tokens = await notificationRepository.getAllRegisteredTokens();
+      console.log(`[DeviceStatus] Triggering notifications for ${device.name}. Registered tokens: ${tokens.length}`);
+      
       if (tokens.length > 0) {
         const title = `Device Status Changed`;
         const body = `Device ${device.name} is now ${status}`;

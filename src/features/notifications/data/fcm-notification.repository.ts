@@ -20,9 +20,9 @@ export class FcmNotificationRepository implements INotificationRepository {
 
     try {
       await admin.messaging().send(message);
-      console.log(`Notification sent successfully to token: ${token}`);
+      console.log(`[FCM] Notification sent successfully to token: ${token.substring(0, 10)}...`);
     } catch (error) {
-      console.error(`Failed to send notification to token: ${token}`, error);
+      console.error(`[FCM] Failed to send notification to token: ${token.substring(0, 10)}...`, error);
     }
   }
 
@@ -31,7 +31,7 @@ export class FcmNotificationRepository implements INotificationRepository {
       userTokens.set(userId, new Set());
     }
     userTokens.get(userId)?.add(token);
-    console.log(`FCM Token registered for user ${userId}`);
+    console.log(`[FCM] Token registered for user ${userId}. Total users with tokens: ${userTokens.size}`);
   }
 
   async getTokensByUserId(userId: string): Promise<string[]> {
