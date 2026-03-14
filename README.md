@@ -2,6 +2,12 @@
 
 Plexus Cloud is a high-performance, professional Express.js backend engineered as the backbone for the Plexuspules NOC Simulator. It provides a modular, feature-oriented API for real-time network infrastructure monitoring, secure identity management, and proactive alert broadcasting.
 
+## 🔗 Production Links
+
+*   **API Base URL**: `https://backend-plexuspules-azizur-rahaman.onrender.com/api`
+*   **Web Dashboard**: [https://plexus-pulse-dashboard.vercel.app/](https://plexus-pulse-dashboard.vercel.app/)
+*   **Mobile App Download**: [Download Android APK](https://www.dropbox.com/scl/fi/1mu12dbhxw9syx2f8368e/app-release.apk?rlkey=hruz0r2y9kke7z35wyqkpoc5x&st=3k1grj0x&dl=0)
+
 ## 🚀 Key Features
 
 *   **Secure Identity Management**: Robust authentication flow utilizing JWT (JSON Web Tokens) and bcryptjs for secure credential hashing.
